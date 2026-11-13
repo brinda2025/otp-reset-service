@@ -22,7 +22,7 @@ public class WebOtpController {
     public String home() {
         return "redirect:/forgot-password";
     }
-
+     // getmapping
     @GetMapping("/forgot-password")
     public String forgotPasswordPage() {
         return "forgot-password";
