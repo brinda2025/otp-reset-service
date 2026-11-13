@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otp-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otp-app
+  template:
+    metadata:
+      labels:
+        app: otp-app
+    spec:
+      containers:
+        - name: otp-app
+          image: otp-reset-service:1.2
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka-service:9092"
+            - name: SMTP_HOST
+              value: "mailpit-service"
+            - name: SMTP_PORT
+              value: "1025"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otp-service
+spec:
+  type: NodePort
+  selector:
+    app: otp-app
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080
