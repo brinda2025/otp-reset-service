@@ -19,7 +19,7 @@ public class OtpStoreService {
         otpStorage.put(email.toLowerCase(), new OtpEntry(otp, Instant.now().plusSeconds(300)));
         return otp;
     }
-
+    // method for validate
     public boolean validateAndConsumeOtp(String email, String submittedOtp) {
         OtpEntry entry = otpStorage.get(email.toLowerCase());
         if (entry == null || Instant.now().isAfter(entry.expiresAt())) {
